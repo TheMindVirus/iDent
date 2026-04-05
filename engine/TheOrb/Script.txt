@@ -1,0 +1,89 @@
+[Neuro - TheOrb | Pilot Intro v0.1]
+
+[Terminology]
+* The Orb - Round Quadcopter Ship with side doors and central corridor
+* Drone Cam - Headless free-flying Camera Control script in Ghost Mode
+* Stretcher - Carries neurology patient into ship connected with cables and pipes
+* The Patient - Orb-headed humanoid on a Stretcher being looked after by the Pilot
+* The Pilot - Orb-headed cyborg in prosthetic exoskeleton in control of the ship
+* Control Panel - Two-tier desk covered in modular boxes with connection points for cables
+* Patching - Procedure executed by The Pilot wiring underneath the Control Panel table
+* Overheads - Control Panels attached to the ceiling as opposed to on the ground
+* Engine Room - Space at the back of the ship filled with multiple Procyon racks
+* Control Room - Space at the front of the ship filled with multiple Control Panels
+* Procyon - Data terminal with tilted portrait monitor and fuse racks with Breakers
+* Breakers - Power Control Modules that trip if they detect an overcurrent condition
+* Docking - Procedure of attachment between the Drone Cam and The Orb's Overheads
+
+[Script]
+* Drone Cam starts looking up at the front of the ship outside on the landing pad
+(The Landing Pad is located on the highest skyscraper in a city with fog surrounding)
+
+* Drone Cam orbits The Orb and then flies in through the left door into the corridor
+(Optional upward door opening animation or otherwise phase through the wall)
+
+* Drone Cam flies towards the extreme other side and then turns around to look back
+(If Drone Cam enters through the left door then it lands up at the right side)
+
+* Stretcher comes in through the same door as Drone Cam and stops in the middle
+(Stretcher is not meant to be inside the ship when Drone Cam flies through)
+
+* Stretcher is wired into the rest of the ship with cables and oxygen pipes
+(These stretch from all corners including the ceiling with optional headphones)
+
+* Drone Cam flies into the Engine Room through the door on the right side
+(Multiple Procyon racks are visible with optional scrolling terminal text)
+
+* Drone Cam exits through the left Engine Room door and enters the left Control Room door
+(The Pilot is not meant to be seated anywhere in the control room at this point)
+
+* Drone Cam finds The Pilot doing some Patching to the underside of the Control Panel table
+(Wires are dangling from the underside of the table to various parts of the ship)
+
+* The Pilot grabs Drone Cam, stands up and moves to the center of the Control Panels
+(This is the space behind the middle Control Panel and the Overheads looking backward)
+
+* The Pilot commences Docking the Drone Cam to the ship via cabling and some straps
+(A short Docking animation plays back as an overlay on Drone Cam with a progress bar)
+
+* The Pilot goes to sit in the left side seat and waits for automated procedures to complete
+(Drone Cam is now looking through the Overheads back into the Control Room at The Pilot)
+
+* Some time passes with not many changes to the current layout of the scene
+(If not already playing, some bitcrush filtered background music is playing on a Control Panel)
+
+* An error occurs on Drone Cam and for the rest of the scene Drone Cam is reversing time
+(From the intro to the current time, the clip from now is the same but played backwards)
+
+* Drone Cam commences Docking backwards and proceeds to exiting the ship as played in reverse
+(If any music is playing, the music plays forwards rather than backwards)
+
+* Drone Cam goes back to orbiting the front side of The Orb after the Stretcher exits
+(Hide the Stretcher from view when it is outside and not part of the scene)
+
+* Drone Cam abruptly cuts to black marking the end of the scene
+(If any music is playing, it can also abruptly play sound effects to signify this)
+
+[Summary]
+1) Drone Cam starts at front side of The Orb
+2) Drone Cam enters The Orb through the left door
+3) Drone Cam goes through the corridor and spins around 180 degrees
+4) Stretcher comes in and Drone Cam watches The Patient being connected
+5) Drone Cam goes into the Engine Room and looks at Procyon monitors scrolling
+6) Drone Cam exits the Engine Room and enters the Control Room
+7) Drone Cam finds The Pilot doing some patching under a table
+8) The Pilot grabs Drone Cam and commences Docking it to the ship
+9) Drone Cam watches as The Pilot returns to the ship's left side seat
+10) Some time passes as automated procedures complete
+11) Drone Cam encounters an error and starts playing backwards
+12) Progress bar moves backwards instead of forwards
+13) Music continues to play forwards instead of backwards
+14) Drone Cam gets undocked and The Pilot goes back to Patching
+15) Drone Cam goes backwards through the Engine Room
+16) Drone Cam watches Stretcher being disconnected and exiting
+17) Drone Cam goes backwards through the ship's left door
+18) Drone Cam goes back to orbiting front side of The Orb
+19) Drone Cam encounters an error and abruptly stops playback
+20) End of Scene and Call to Reset all moving elements
+
+| 11:11 05/04/2026 |
