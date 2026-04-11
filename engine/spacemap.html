@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ * { box-sizing: border-box; margin: auto; }
+ #canvas { position: fixed; top: 0; left: 0; width: 50%; height: 100%; background: black; }
+ #textarea { position: fixed; top: 0; left: 50%; width: 50%; height: 100%; overflow: scroll; }
+</style>
+<script>
+window.onload = function()
+{
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    textarea = document.getElementById("textarea");
+    var data = localStorage.getItem("data");
+    default_data = `\
+{
+    "planet earth": { "longitude": 0.0, "latitude": 0.0, "elevation": 0.0, "aura": "#0077FF" },
+    "the sun": { "longitude": 0.0, "latitude": 0.0, "elevation": 2.0, "aura": "#FF7700" },
+    "mars rover": { "longitude": -45.0, "latitude": 180.0, "elevation": 1.5, "aura": "#FF0000" },
+    "the bunker": { "longitude": 45.0, "latitude": 90.0, "elevation": 0.5, "aura": "#00FF77" },
+    "msg sphere": { "longitude": 0.0, "latitude": 0.0, "elevation": 1.0, "aura": "#FFFF00" }
+}` ;
+    if ((data == null) || (data == "")) { data = default_data; }
+    textarea.value = data;
+    textarea.oninput = change;
+    drag_held = false; drag_x = 0; drag_y = 0; drag_z = 0; drag_freeze = 0;
+    canvas.onmousemove = mouse;
+    canvas.onmousewheel = wheel;
+    window.onmousedown = function() { drag_held = true; }
+    window.onmouseup = function() { drag_held = false; }
+    window.onresize();
+    objects = null;
+    tau = 2 * Math.PI;
+    sensitivity = 0.01;
+    setTimeout("change();", 0);
+    setInterval("render();", 10);
+}
+
+window.onresize = function()
+{
+    var style = window.getComputedStyle(canvas);
+    w = canvas.width = parseFloat(style.width);
+    h = canvas.height = parseFloat(style.height);
+    hw = w / 2; hh = h / 2; ee = ((hw < hh) ? hw : hh) / 2;
+}
+
+change = function()
+{
+    if (textarea.value == "") { textarea.value = default_data; }
+    localStorage.setItem("data", textarea.value);
+    objects = JSON.parse(textarea.value);
+}
+
+mouse = function(event)
+{
+    if (drag_held)
+    {
+        drag_freeze = 1;
+        drag_x += event.movementX;
+        drag_y += event.movementY;
+    }
+}
+
+wheel = function(event)
+{
+    drag_freeze = 1;
+    drag_z += event.deltaY * 0.1;
+}
+
+radians = function(degrees)
+{
+    return (degrees * Math.PI) / 180;
+}
+
+rotate = function(x, y, z, rx, ry, rz)
+{
+    var tx = 0; var ty = 0; var tz = 0;
+    tx = x; ty = (y * Math.cos(rx)) + (z * -Math.sin(rx)); tz = (y * Math.sin(rx)) + (z * Math.cos(rx));
+    x = tx; y = ty; z = tz;
+    tx = (x * Math.cos(ry)) + (z * Math.sin(ry)); ty = y; tz = (x * -Math.sin(ry)) + (z * Math.cos(ry));
+    x = tx; y = ty; z = tz;
+    tx = (x * Math.cos(rz)) + (y * -Math.sin(rz)); ty = (x * Math.sin(rz)) + (y * Math.cos(rz)); tz = z;
+    x = tx; y = ty; z = tz;
+    return { "x": x, "y": y, "z": z };
+}
+
+position = function(name)
+{
+    var longitude = radians(objects[name].longitude);
+    var latitude = radians(objects[name].latitude);
+    var elevation = ee * objects[name].elevation;
+    var xyz = { "x": elevation, "y": 0, "z": 0 };
+    xyz = rotate(xyz.x, xyz.y, xyz.z, 0, 0, longitude);
+    xyz = rotate(xyz.x, xyz.y, xyz.z, 0, latitude, 0);
+    xyz = rotate(xyz.x, xyz.y, xyz.z, -drag_z * sensitivity, drag_x * sensitivity, drag_y * sensitivity);
+    return { "x": hw - xyz.x, "y": hh - xyz.y, "z": 0 - xyz.z };
+}
+
+render = function()
+{
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, w, h);
+
+    var sorted = [];
+    var zindex = [];
+    for (var name in objects)
+    {
+        var xyz = position(name);
+        var pos = 0;
+        for (pos = 0; pos < zindex.length; ++pos)
+        {
+            if (xyz.z <= zindex[pos]) { break; }
+        }
+        sorted.splice(pos, 0, name);
+        zindex.splice(pos, 0, xyz.z);
+    }
+
+    for (var idx in sorted)
+    {
+        var name = sorted[idx];
+        var xyz = position(name);
+
+        ctx.beginPath();
+        ctx.moveTo(hw, hh);
+        ctx.lineTo(xyz.x, xyz.y);
+        ctx.closePath();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = objects[name].aura;
+        ctx.stroke();
+
+        ctx.font = "20pt consolas";
+        ctx.textAlign = "center";
+        ctx.fillStyle = objects[name].aura;
+        ctx.fillText(name, xyz.x, xyz.y + 50);
+
+        ctx.beginPath();
+        ctx.arc(xyz.x, xyz.y, ee / 10, 0, tau);
+        ctx.closePath();
+        ctx.fillStyle = objects[name].aura;
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "#FFFFFF";
+        ctx.stroke();
+
+        if (name == Object.keys(objects)[0])
+        {
+            ctx.beginPath();
+            ctx.arc(hw, hh, ee, 0, tau);
+            ctx.closePath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.stroke();
+        }
+    }
+
+    if (drag_freeze == 0) { drag_x += 1; }
+}
+</script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<textarea id="textarea"></textarea>
+</body>
+</html>
